@@ -1,6 +1,6 @@
 # Ref Extract
 
-![Ref Extract](../blob/master/public_html/img/red-extract.gif?raw=true)
+![Ref Extract](../master/ref-extract.gif?raw=true)
 
 Reference extraction from noisy data using k-means clustering of word embeddings. Implements model described in _Extracting references from political speech auto-transcripts_ ([pdf](https://drive.google.com/open?id=0B8CcT_0LwJ8QaUtYZ1R6c1FqR2M)). This is intended not as a general ease-of-access tool (yet), but as a technical demonstration of the technique described in the paper.
 
