@@ -1,0 +1,50 @@
+#!/bin/bash
+# change to true for verbose output
+DEBUG=true
+
+log() {
+  if $DEBUG; then
+    >&2 echo "${*}"
+  fi
+}
+
+clean() {
+  #| sed 's/\[[^\s]*\]//g'
+  while read LINE; do
+    echo ${LINE} \
+      | tr -c -d '[:print:]\n' \
+      | tr '[:upper:]' '[:lower:]' \
+      | sed 's/htt.*\:\/\/[^ ]\+//g' \
+      | sed 's/\\n//g' \
+      | tr '!:;?,=()#@%' ' '\
+      | sed 's/[\-]\+/ /g' \
+      | sed 's/\[.*\]//g' \
+      | sed 's/.[0-9\,]\+//g' \
+      | tr '.\"\/_' ' ' \
+      | sed 's/\s\+/ /g' \
+      | sed 's/^ //g'
+  done
+}
+
+if [[ "${1}" == "-h" || "${1}" == "--help" ]]; then
+  log 'USAGE: preprocess_text [OPTIONS] [INPUT FILE]'
+  log
+  log '  This program cleans input texts by removing non-printable chars'
+  log '  removes sentence-breaking punctuation (!:;?,.), lower-cases'
+  log '  the text and condences sequential whitespace to a single space'
+  log
+  log '  If INPUT FILE is blank, preprocess_text will read from stdin'
+  log
+  log 'OPTIONS:'
+  log '  -h, --help  -  This message'
+  exit 1
+elif [[ "${1}" == "" ]]; then
+  log "Reading from stdin"
+  while read LINE; do
+    echo ${LINE} | clean
+  done
+else
+  log "Reading from file ${1}"
+  cat ${1} | clean
+fi
+

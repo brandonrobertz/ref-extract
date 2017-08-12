@@ -1,0 +1,7 @@
+tmp_data
+.*.swp
+.*.swo
+*.pyc
+plot/
+data/
+tmp_data/
